@@ -18,9 +18,9 @@ def show_menu():
     print("4. Exit")
 
 
-# =========================
-# YOUR PART (ADD MOVIE)
-# =========================
+# ==========================================
+# AIMAN'S PART (ADD MOVIE)
+# ==========================================
 def add_movie():
     print("\n--- Add New Movie ---")
     
@@ -48,9 +48,9 @@ def add_movie():
     print(f"'{title}' has been added successfully!")
 
 
-# =========================
-# YOUR PART (VIEW MOVIES)
-# =========================
+# ==========================================
+# AIMAN'S PART (VIEW MOVIES)
+# ==========================================
 def view_movies():
     print("\n--- All Movies ---")
 
@@ -68,32 +68,40 @@ def view_movies():
         print("------------------------")
 
 
-# =========================
-# PARTNER CAN IMPROVE THIS
-# =========================
+# ==========================================
+# AFIQ'S PART (SEARCH MOVIE & EXIT LOGIC)
+# ==========================================
 def search_movie():
     print("\n--- Search Movie ---")
-    search_query = input("Enter movie title: ")
+    search_query = input("Enter movie title (or part of it): ").strip().lower()
 
-    found = False
+    if not search_query:
+        print("Search query cannot be empty.")
+        return
 
+    results = []
+
+    # Searching for partial matches to make the tool more user-friendly
     for movie in movies:
-        if search_query.lower() == movie['title'].lower():
-            print("\nMovie Found!")
+        if search_query in movie['title'].lower():
+            results.append(movie)
+
+    if results:
+        print(f"\nFound {len(results)} matching movie(s):")
+        print("------------------------")
+        for movie in results:
             print(f"Title: {movie['title']}")
             print(f"Genre: {movie['genre']}")
             print(f"Rating: {movie['rating']}")
-            found = True
-            break
-
-    if not found:
-        print("Movie not found.")
+            print("------------------------")
+    else:
+        print(f"No movies found matching '{search_query}'.")
 
 
 def main():
     while True:
         show_menu()
-        choice = input("Enter your choice: ")
+        choice = input("Enter your choice (1-4): ")
 
         if choice == "1":
             add_movie()
@@ -105,11 +113,12 @@ def main():
             search_movie()
 
         elif choice == "4":
-            print("Exiting program. Goodbye!")
+            print("\nExiting Movie Collection Manager. Data saved for this session.")
+            print("Thank you for using the system. Goodbye!")
             break
 
         else:
-            print("Invalid option, please try again.")
+            print("\n[!] Invalid option. Please enter a number between 1 and 4.")
 
 
 if __name__ == "__main__":
